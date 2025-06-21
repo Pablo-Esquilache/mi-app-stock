@@ -13,14 +13,29 @@
 
     <main class="container">
       <section class="formulario">
-        <h2>➕ Crear nuevo usuario</h2>
-        <input type="email" id="emailUsuario" placeholder="Correo electrónico" />
+        <div class="formulario-header">
+          <h2>➕ Crear nuevo usuario</h2>
+          <button
+            class="btn-volver"
+            onclick="window.location.href='dashboard.html'"
+          >
+            ⬅ Volver al Dashboard
+          </button>
+        </div>
+
+        <input
+          type="email"
+          id="emailUsuario"
+          placeholder="Correo electrónico"
+        />
         <input type="password" id="claveUsuario" placeholder="Contraseña" />
         <select id="rolUsuario">
           <option value="admin">Administrador</option>
           <option value="usuario">Usuario</option>
         </select>
-        <button id="btnCrearUsuario">Crear Usuario</button>
+
+        <button id="btnCrearUsuario" class="btn-form">Crear Usuario</button>
+        <button id="btnActualizarRol" class="hidden btn-form">Actualizar Rol</button>
       </section>
 
       <section class="listado">
@@ -37,8 +52,6 @@
           </tbody>
         </table>
       </section>
-
-      <button class="btn-volver" onclick="window.location.href='dashboard.html'">⬅ Volver al Dashboard</button>
     </main>
 
     <footer>

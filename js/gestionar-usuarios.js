@@ -1,8 +1,11 @@
+// gestionar-usuarios.js
 import { db, auth } from "../firebase-config.js";
 import {
   collection,
   getDocs,
-  addDoc
+  addDoc,
+  updateDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   createUserWithEmailAndPassword
@@ -12,18 +15,29 @@ const emailInput = document.getElementById("emailUsuario");
 const claveInput = document.getElementById("claveUsuario");
 const rolSelect = document.getElementById("rolUsuario");
 const btnCrear = document.getElementById("btnCrearUsuario");
+const btnActualizar = document.getElementById("btnActualizarRol");
 const tabla = document.getElementById("tablaUsuarios");
+
+let usuarioSeleccionadoId = null;
 
 const cargarUsuarios = async () => {
   const snapshot = await getDocs(collection(db, "usuarios"));
   tabla.innerHTML = "";
-  snapshot.forEach((doc) => {
-    const data = doc.data();
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
     const fila = document.createElement("tr");
     fila.innerHTML = `
       <td>${data.email}</td>
       <td>${data.rol}</td>
     `;
+    fila.addEventListener("click", () => {
+      emailInput.value = data.email;
+      rolSelect.value = data.rol;
+      claveInput.value = "";
+      usuarioSeleccionadoId = docSnap.id;
+      btnCrear.classList.add("hidden");
+      btnActualizar.classList.remove("hidden");
+    });
     tabla.appendChild(fila);
   });
 };
@@ -38,10 +52,7 @@ btnCrear.addEventListener("click", async () => {
   }
 
   try {
-    // 1. Crear usuario en Firebase Authentication
     const cred = await createUserWithEmailAndPassword(auth, email, clave);
-
-    // 2. Agregar usuario en Firestore (con su rol)
     await addDoc(collection(db, "usuarios"), {
       email,
       rol,
@@ -62,6 +73,27 @@ btnCrear.addEventListener("click", async () => {
     } else {
       alert("❌ Ocurrió un error al crear el usuario.");
     }
+  }
+});
+
+btnActualizar.addEventListener("click", async () => {
+  if (!usuarioSeleccionadoId) return;
+
+  const nuevoRol = rolSelect.value;
+  try {
+    const ref = doc(db, "usuarios", usuarioSeleccionadoId);
+    await updateDoc(ref, { rol: nuevoRol });
+    alert("✅ Rol actualizado.");
+    emailInput.value = "";
+    claveInput.value = "";
+    rolSelect.value = "usuario";
+    usuarioSeleccionadoId = null;
+    btnCrear.classList.remove("hidden");
+    btnActualizar.classList.add("hidden");
+    cargarUsuarios();
+  } catch (err) {
+    console.error("❌ Error al actualizar el rol:", err);
+    alert("❌ No se pudo actualizar el rol.");
   }
 });
 

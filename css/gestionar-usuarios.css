@@ -31,11 +31,42 @@ header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+/* Encabezado del formulario */
+.formulario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
-  color: #007bff;
 }
 
+.formulario-header h2 {
+  color: #007bff;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.btn-volver {
+  background-color: #17a2b8;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-volver:hover {
+  background-color: #138496;
+}
+
+/* Botón oculto */
+.hidden {
+  display: none;
+}
+
+
+/* Inputs y botones del formulario */
 .formulario input,
 .formulario select,
 .formulario button {
@@ -48,15 +79,20 @@ h2 {
   border-radius: 6px;
 }
 
-.formulario button {
+.btn-form {
   background-color: #28a745;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-.formulario button:hover {
+.btn-form:hover {
   background-color: #218838;
+}
+
+/* Botón oculto (para alternar entre crear y actualizar) */
+.hidden {
+  display: none;
 }
 
 /* Tabla de usuarios */
@@ -78,21 +114,7 @@ table th {
   color: white;
 }
 
-.btn-volver {
-  margin-top: 2rem;
-  background-color: #007bff;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.btn-volver:hover {
-  background-color: #0056b3;
-}
-
+/* Footer */
 footer {
   text-align: center;
   margin-top: 2rem;

@@ -1,0 +1,121 @@
+/* ingresos.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+header {
+  text-align: center;
+  padding: 1rem 0;
+  background: #007bff;
+  color: white;
+}
+
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.botonera {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.botonera button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.btn-agregar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-agregar:hover {
+  background-color: #218838;
+}
+
+.btn-volver {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+}
+
+.formulario-ingreso {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.formulario-ingreso input[type="text"],
+.formulario-ingreso input[type="number"] {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.formulario-ingreso input[type="number"] {
+  width: 100px;
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333;
+}
+
+.guardar-contenedor {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn-guardar {
+  background-color: #17a2b8;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background-color: #138496;
+}

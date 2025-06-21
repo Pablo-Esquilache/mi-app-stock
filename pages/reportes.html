@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reportes</title>
+    <meta
+      name="description"
+      content="Reportes de movimientos de stock - Mi Depósito"
+    />
+    <link rel="stylesheet" href="../css/reportes.css" />
+    <style>
+      .chart-container {
+        max-width: 600px;
+        margin: 0 auto 2rem;
+      }
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Reportes de Stock</h1>
+    </header>
+
+    <main class="container">
+      <div class="botonera">
+        <div class="botones">
+          <button class="btn-agregar" id="btnGenerarReporte">
+            📊 Generar Reporte
+          </button>
+          <button class="btn-guardar" id="btnExportarPDF">
+            📄 Exportar PDF
+          </button>
+          <button class="btn-guardar" id="btnGuardarReporte">💾 Guardar Reporte</button>
+          <button
+            class="btn-volver"
+            onclick="window.location.href='dashboard.html'"
+          >
+            ⬅ Volver al Dashboard
+          </button>
+        </div>
+
+        <div class="fechas">
+          <label for="fechaDesde">Desde:</label>
+          <input type="date" id="fechaDesde" />
+          <label for="fechaHasta">Hasta:</label>
+          <input type="date" id="fechaHasta" />
+        </div>
+      </div>
+
+      <section>
+        <h2>📦 Reposiciones</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Cantidad</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="tablaReposiciones"></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>📥 Ingresos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Cantidad</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="tablaIngresos"></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>🥇 Categoría más vendida</h2>
+        <div class="chart-container">
+          <canvas id="graficoCategorias"></canvas>
+        </div>
+      </section>
+
+      <section>
+        <h2>📈 Movimiento diario</h2>
+        <div class="chart-container">
+          <canvas id="graficoMovimientos"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pablo Esquilache</p>
+    </footer>
+
+    <!-- Scripts necesarios (globales) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Script propio -->
+    <script type="module" src="../js/reportes.js"></script>
+  </body>
+</html>

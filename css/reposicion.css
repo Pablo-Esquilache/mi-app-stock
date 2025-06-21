@@ -1,0 +1,128 @@
+/* Reset y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+  padding: 1rem;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 1rem 0;
+  background: #007bff;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Main Container */
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Botonera */
+.botonera {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.botonera button {
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-agregar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-agregar:hover {
+  background-color: #218838;
+}
+
+.btn-guardar {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-guardar:hover {
+  background-color: #138496;
+}
+
+.btn-volver {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+}
+
+/* Formulario de ingreso */
+.formulario-reposicion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 1rem;
+}
+
+.formulario-reposicion input[type="text"],
+.formulario-reposicion input[type="number"] {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.formulario-reposicion input[type="number"] {
+  max-width: 120px;
+}
+
+.formulario-reposicion .btn-eliminar {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-reposicon .btn-eliminar:hover {
+  background-color: #c82333;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #777;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Panel principal del sistema Mi Depósito"
+    />
+    <title>Dashboard - Mi Depósito</title>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Mi Depósito - Panel Principal</h1>
+    </header>
+
+    <main class="container">
+      <section class="contenido">
+        <h2>Bienvenido</h2>
+        <p>Seleccioná una opción para continuar:</p>
+
+        <div class="botonera">
+          <button onclick="window.location.href='productos.html'">
+            📦 Productos
+          </button>
+          <button onclick="window.location.href='reposicion.html'">
+            🔁 Reposición
+          </button>
+          <button onclick="window.location.href='ingresos.html'">
+            📥 Ingresos
+          </button>
+          <button onclick="window.location.href='reportes.html'">
+            📊 Reportes
+          </button>
+        </div>
+      </section>
+
+      <section class="logout">
+        <button class="btn-logout" onclick="logout()">🚪 Cerrar sesión</button>
+      </section>
+    </main>
+
+    <script type="module" src="../js/dashboard.js"></script>
+  </body>
+</html>

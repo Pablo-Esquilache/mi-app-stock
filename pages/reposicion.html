@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Reposición de productos - Mi Depósito" />
+    <title>Reposición</title>
+    <link rel="stylesheet" href="../css/reposicion.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Reposición de Productos</h1>
+    </header>
+
+    <main class="container">
+      <div class="botonera">
+        <button id="agregarFormulario" class="btn-agregar">
+          + Agregar Reposición
+        </button>
+        <button id="guardarReposiciones" class="btn-agregar">
+          💾 Guardar Reposición
+        </button>
+        <button class="btn-volver" onclick="window.location.href='dashboard.html'">
+          ⬅ Volver al Dashboard
+        </button>
+      </div>
+
+      <datalist id="listaProductosGlobal"></datalist>
+
+      <div id="formulariosReposicion"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pablo Esquilache</p>
+    </footer>
+
+    <script type="module" src="../js/reposicion.js"></script>
+  </body>
+</html>

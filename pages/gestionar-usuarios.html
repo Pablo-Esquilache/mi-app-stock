@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestionar Usuarios</title>
+    <link rel="stylesheet" href="../css/gestionar-usuarios.css" />
+  </head>
+  <body>
+    <header>
+      <h1>👤 Gestión de Usuarios</h1>
+    </header>
+
+    <main class="container">
+      <section class="formulario">
+        <h2>➕ Crear nuevo usuario</h2>
+        <input type="email" id="emailUsuario" placeholder="Correo electrónico" />
+        <input type="password" id="claveUsuario" placeholder="Contraseña" />
+        <select id="rolUsuario">
+          <option value="admin">Administrador</option>
+          <option value="usuario">Usuario</option>
+        </select>
+        <button id="btnCrearUsuario">Crear Usuario</button>
+      </section>
+
+      <section class="listado">
+        <h2>📋 Usuarios Activos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Rol</th>
+            </tr>
+          </thead>
+          <tbody id="tablaUsuarios">
+            <!-- Datos cargados desde Firebase -->
+          </tbody>
+        </table>
+      </section>
+
+      <button class="btn-volver" onclick="window.location.href='dashboard.html'">⬅ Volver al Dashboard</button>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pablo Esquilache</p>
+    </footer>
+
+    <script type="module" src="../js/gestionar-usuarios.js"></script>
+  </body>
+</html>

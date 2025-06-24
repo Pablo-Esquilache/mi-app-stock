@@ -16,7 +16,7 @@ function login() {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
-      window.location.href = "./pages/dashboard.html";
+      window.location.href = "/pages/dashboard.html";
     })
     .catch(() => {
       const loginError = document.getElementById("loginError");
@@ -26,12 +26,19 @@ function login() {
 
 function logout() {
   signOut(auth).then(() => {
-    window.location.href = "../index.html";
+    window.location.href = "/index.html";
   });
 }
 
 window.logout = logout;
-
 window.login = login;
 
-signOut(auth);
+// ✅ Registrar el Service Worker con ruta absoluta
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((reg) => console.log("✅ SW registrado", reg))
+      .catch((err) => console.error("❌ Error al registrar el SW:", err));
+  });
+}

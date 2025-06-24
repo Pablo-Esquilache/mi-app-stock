@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sección Agregar Nuevo Producto - Mi Depósito"
+    />
+    <title>Agregar Nuevo Producto</title>
+    <link rel="stylesheet" href="../css/agregar-productos.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Agregar Nuevo Producto</h1>
+    </header>
+
+    <main class="container">
+      <form id="formCargaArchivo">
+        <label for="archivoProductos"
+          >Seleccionar archivo de productos (.csv):</label
+        >
+        <input type="file" id="archivoProductos" accept=".csv" required />
+        <button type="submit">📥 Cargar Archivo</button>
+      </form>
+
+      <div
+        id="mensajeCarga"
+        style="margin-top: 1rem; color: green; font-weight: bold"
+      ></div>
+
+      <nav>
+        <button onclick="window.location.href='productos.html'">
+          ⬅ Volver a Productos
+        </button>
+      </nav>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pablo Esquilache</p>
+    </footer>
+
+    <script type="module" src="../js/agregar-productos.js"></script>
+  </body>
+</html>

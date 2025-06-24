@@ -34,15 +34,20 @@ const cargarUsuarios = async () => {
       <td>${data.email}</td>
       <td>${data.rol}</td>
       <td>
-        <button class="btn-editar" data-id="${docSnap.id}" data-email="${data.email}" data-rol="${data.rol}">✏️</button>
-        <button class="btn-eliminar" data-id="${docSnap.id}">🗑️</button>
+        <button class="btn-editar"
+                data-id="${docSnap.id}"
+                data-email="${data.email}"
+                data-rol="${data.rol}">✏️</button>
+        <button class="btn-eliminar"
+                data-id="${docSnap.id}"
+                data-uid="${data.uid}">🗑️</button>
       </td>
     `;
 
     tabla.appendChild(fila);
   });
 
-  // Botón editar (asigna datos al formulario)
+  // Botón editar
   document.querySelectorAll(".btn-editar").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = e.currentTarget.getAttribute("data-id");
@@ -59,25 +64,65 @@ const cargarUsuarios = async () => {
     });
   });
 
-  // Botón eliminar
+  // Botón eliminar (envía al backend)
   document.querySelectorAll(".btn-eliminar").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      const id = e.currentTarget.getAttribute("data-id");
+      const uid = e.currentTarget.getAttribute("data-uid");
 
       const confirmar = confirm("¿Estás seguro que querés eliminar este usuario?");
       if (!confirmar) return;
 
       try {
-        await deleteDoc(doc(db, "usuarios", id));
-        alert("🗑️ Usuario eliminado de Firestore.");
-        cargarUsuarios();
+        const res = await fetch(`http://localhost:3000/eliminar-usuario/${uid}`, {
+          method: "DELETE"
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Usuario eliminado correctamente.");
+          cargarUsuarios();
+        } else {
+          alert("❌ No se pudo eliminar el usuario.");
+          console.error(data.error);
+        }
       } catch (err) {
-        console.error("❌ Error al eliminar:", err);
-        alert("❌ No se pudo eliminar el usuario.");
+        console.error("❌ Error al conectar con el backend:", err);
+        alert("❌ Error al eliminar el usuario.");
       }
     });
   });
 };
+
+
+document.querySelectorAll(".btn-eliminar").forEach((btn) => {
+  btn.addEventListener("click"), async (e) => {
+    const confirmacion = confirm("¿Estás seguro de que querés eliminar este usuario?");
+    if (!confirmacion) return;
+
+    const uid = e.target.getAttribute("data-uid");
+
+    try {
+      const respuesta = await fetch(`http://localhost:3000/eliminar-usuario/${uid}`, {
+        method: "DELETE"
+      });
+
+      const data = await respuesta.json();
+
+      if (respuesta.ok) {
+        alert("✅ Usuario eliminado correctamente.");
+        cargarUsuarios(); // Refrescar tabla
+      } else {
+        console.error("❌ Error:", data.error);
+        alert("❌ No se pudo eliminar el usuario.");
+      }
+    } catch (err) {
+      console.error("❌ Error al conectar con backend:", err);
+      alert("❌ Error al eliminar usuario.");
+    }
+  }
+});
+
 
 btnCrear.addEventListener("click", async () => {
   const email = emailInput.value.trim();

@@ -1,0 +1,16 @@
+# Node.js
+node_modules/
+.env
+
+# Firebase Admin SDK credentials (si las guardás en archivo)
+*.json
+
+# Logs
+*.log
+
+# VSCode settings (opcional)
+.vscode/
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db

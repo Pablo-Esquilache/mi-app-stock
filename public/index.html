@@ -4,9 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Inicio de sesión para Mi Depósito" />
+    <meta name="theme-color" content="#007bff" />
+
     <title>Login - Mi Depósito</title>
-    <link rel="stylesheet" href="./css/index.css" />
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="/css/index.css" />
+
+    <!-- Manifest y favicon -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/images/icono1.png" type="image/png" />
+
+    <!-- iOS: para que también sea instalable ahí -->
+    <link rel="apple-touch-icon" href="/images/icono1.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
   </head>
+
   <body>
     <main class="container">
       <h1>Mi Depósito</h1>
@@ -16,6 +29,6 @@
       <p id="loginError" class="error-message"></p>
     </main>
 
-    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>

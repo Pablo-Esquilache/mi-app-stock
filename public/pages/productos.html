@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Listado y administración de productos del depósito"
+    />
+    <title>Productos - Mi Depósito</title>
+    <link rel="stylesheet" href="../css/productos.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Listado de Productos</h1>
+    </header>
+
+    <main>
+      <div class="botonera">
+        <button
+          onclick="window.location.href='agregar-producto.html'"
+          class="btn-cargar"
+        >
+          📥 Cargar Archivo
+        </button>
+        <button id="btnAbrirModal" class="btn-agregar">
+          ➕ Agregar Producto
+        </button>
+        <button
+          onclick="window.location.href='dashboard.html'"
+          class="btn-volver"
+        >
+          🏠 Volver al Dashboard
+        </button>
+      </div>
+
+      <div class="buscador-contenedor">
+        <input
+          type="text"
+          id="buscador"
+          placeholder="🔍 Buscar por categoría, nombre o código..."
+        />
+      </div>
+
+      <section class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Categoría</th>
+              <th>Producto</th>
+              <th>Stock Inicial</th>
+              <th>Stock Final</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaProductos">
+            <!-- Los productos se cargarán desde Firebase -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- Modal para agregar producto -->
+    <div id="modalProducto" class="modal hidden">
+      <div class="modal-contenido">
+        <h2>Agregar Nuevo Producto</h2>
+        <form id="formNuevoProducto">
+          <input type="text" id="codigo" placeholder="Código" disabled />
+          <input type="text" id="categoria" placeholder="Categoría" required />
+          <input type="text" id="producto" placeholder="Producto" required />
+          <input
+            type="number"
+            id="stock_inicial"
+            placeholder="Stock Inicial"
+            required
+          />
+          <button type="submit">Agregar</button>
+          <button type="button" id="cerrarModal">Cancelar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para editar producto -->
+    <div id="modalEditarProducto" class="modal hidden">
+      <div class="modal-contenido">
+        <h2>Editar Producto</h2>
+        <form id="formEditarProducto">
+          <input type="text" id="edit_codigo" disabled />
+          <input type="text" id="edit_categoria" required />
+          <input type="text" id="edit_producto" required />
+          <input type="number" id="edit_stock_inicial" required />
+          <button type="submit">Guardar Cambios</button>
+          <button type="button" id="cerrarModalEditar">Cancelar</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Pablo Esquilache</p>
+    </footer>
+
+    <script type="module" src="../js/productos.js"></script>
+    <script type="module" src="../js/modal-producto.js"></script>
+  </body>
+</html>

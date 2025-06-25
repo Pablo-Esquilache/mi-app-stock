@@ -1,4 +1,4 @@
-/* ingresos.css */
+/* Reset y base */
 * {
   margin: 0;
   padding: 0;
@@ -15,11 +15,14 @@ body {
 
 header {
   text-align: center;
-  padding: 1rem 0;
-  background: #007bff;
-  color: white;
+    padding: 1rem 0;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
+/* Contenedor principal */
 main {
   max-width: 1000px;
   margin: 2rem auto;
@@ -29,9 +32,11 @@ main {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* Botonera */
 .botonera {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -63,44 +68,53 @@ main {
   background-color: #0056b3;
 }
 
+/* Formulario de ingreso en fila con scroll lateral */
 .formulario-ingreso {
   display: flex;
-  align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
-  border: 1px solid #ccc;
+  align-items: center;
   padding: 1rem;
-  margin-top: 1rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
+/* Campos del formulario */
 .formulario-ingreso input[type="text"],
 .formulario-ingreso input[type="number"] {
   padding: 0.6rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  min-width: 150px;
+  flex: 0 0 auto;
 }
 
 .formulario-ingreso input[type="number"] {
-  width: 100px;
+  max-width: 120px;
 }
 
+/* Botón eliminar */
 .btn-eliminar {
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  flex: 0 0 auto;
 }
 
 .btn-eliminar:hover {
   background-color: #c82333;
 }
 
+/* Botón guardar */
 .guardar-contenedor {
   text-align: center;
   margin-top: 2rem;
@@ -118,4 +132,12 @@ main {
 
 .btn-guardar:hover {
   background-color: #138496;
+}
+
+/* Responsive ajustes para botonera */
+@media (max-width: 768px) {
+  .botonera {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

@@ -88,11 +88,18 @@ main {
   border-radius: 6px;
 }
 
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .tabla-contenedor table {
+  min-width: 600px;
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
+
 
 .tabla-contenedor th,
 .tabla-contenedor td {
@@ -173,3 +180,69 @@ footer {
   margin-top: 2rem;
   color: #777;
 }
+
+/* Mejora responsive para modal */
+.modal {
+  padding: 1rem;
+}
+
+.modal-contenido {
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-contenido h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+
+.modal-contenido form input,
+.modal-contenido form button {
+  font-size: 1rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+}
+
+.modal-contenido form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.modal-contenido form button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-contenido form button:hover {
+  opacity: 0.9;
+}
+
+
+@media (max-width: 480px) {
+  .tabla-contenedor {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+
+  .tabla-contenedor table {
+    font-size: 0.85rem;
+  }
+
+  .tabla-contenedor th,
+  .tabla-contenedor td {
+    padding: 0.6rem;
+  }
+}
+
+
+
+

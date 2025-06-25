@@ -55,32 +55,53 @@
 
       <section>
         <h2>📦 Reposiciones</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Cantidad</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody id="tablaReposiciones"></tbody>
-        </table>
+        <div class="tabla-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="tablaReposiciones"></tbody>
+          </table>
+        </div>
       </section>
 
       <section>
         <h2>📥 Ingresos</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Cantidad</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody id="tablaIngresos"></tbody>
-        </table>
+        <div class="tabla-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="tablaIngresos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="stock-cero-contenedor">
+        <h2>Productos con Stock Cero</h2>
+        <div class="tabla-responsive">
+          <table class="stock-cero-tabla">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Último Movimiento</th>
+              </tr>
+            </thead>
+            <tbody id="stockCeroProductos"></tbody>
+          </table>
+        </div>
       </section>
 
       <section>

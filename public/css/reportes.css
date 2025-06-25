@@ -163,3 +163,67 @@ footer {
 .botonera .fechas label {
   font-weight: 500;
 }
+
+/* Tabla de productos sin stock */
+#tablaStockCero tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#tablaStockCero td,
+#tablaStockCero th {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+#tablaStockCero th {
+  background-color: #dc3545;
+  color: white;
+}
+
+.stock-cero-contenedor {
+  margin-top: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.stock-cero-contenedor h2 {
+  color: #007bff;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.stock-cero-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stock-cero-tabla th,
+.stock-cero-tabla td {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.stock-cero-tabla th {
+  background-color: #007bff;
+  color: white;
+}
+
+.stock-cero-tabla tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Responsive: tablas scroll horizontal */
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.tabla-responsive table {
+  min-width: 600px; /* o más si querés más espacio */
+  width: 100%;
+}

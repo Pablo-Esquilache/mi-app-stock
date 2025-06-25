@@ -14,26 +14,21 @@ const btnGuardar = document.getElementById("btnGuardarReporte");
 
 const tablaIngresos = document.getElementById("tablaIngresos");
 const tablaReposiciones = document.getElementById("tablaReposiciones");
+const tablaStockCero = document.getElementById("stockCeroProductos");
 const graficoCategorias = document.getElementById("graficoCategorias").getContext("2d");
 const graficoMovimientos = document.getElementById("graficoMovimientos").getContext("2d");
 
 let chartCategorias, chartMovimientos;
-
-// Variables globales para acceso en "guardar"
 let ingresos = [], reposiciones = [], categorias = {}, movimientos = {};
 
 btnGenerar.addEventListener("click", async () => {
   const desde = document.getElementById("fechaDesde").value;
   const hasta = document.getElementById("fechaHasta").value;
-
   if (!desde || !hasta) return alert("Seleccioná ambas fechas.");
 
   const desdeFecha = new Date(desde);
   const hastaFecha = new Date(hasta);
-  hastaFecha.setHours(23, 59, 59, 999); // incluir todo el día "hasta"
-
-  console.log("📅 Fecha desde:", desdeFecha);
-  console.log("📅 Fecha hasta:", hastaFecha);
+  hastaFecha.setHours(23, 59, 59, 999);
 
   const ingresosSnapshot = await getDocs(collection(db, "historial_ingresos"));
   const reposicionesSnapshot = await getDocs(collection(db, "historial_reposiciones"));
@@ -43,51 +38,56 @@ btnGenerar.addEventListener("click", async () => {
   categorias = {};
   movimientos = {};
 
-  console.log("📥 Analizando ingresos...");
+  const productosConMovimiento = new Set();
+
   ingresosSnapshot.forEach((doc) => {
     const data = doc.data();
     const fecha = data.fecha.toDate?.() || new Date(data.fecha);
     if (fecha >= desdeFecha && fecha <= hastaFecha) {
       ingresos.push(data);
+      productosConMovimiento.add(data.producto);
       categorias[data.categoria] = (categorias[data.categoria] || 0) + data.cantidad;
       const dia = fecha.toISOString().split("T")[0];
       movimientos[dia] = (movimientos[dia] || 0) + data.cantidad;
-      console.log("✅ Ingreso válido:", data);
-    } else {
-      console.log("⛔ Ingreso fuera de rango:", data);
     }
   });
 
-  console.log("📦 Analizando reposiciones...");
   reposicionesSnapshot.forEach((doc) => {
     const data = doc.data();
     const fecha = data.fecha.toDate?.() || new Date(data.fecha);
     if (fecha >= desdeFecha && fecha <= hastaFecha) {
       reposiciones.push(data);
+      productosConMovimiento.add(data.producto);
       categorias[data.categoria] = (categorias[data.categoria] || 0) + data.cantidad;
       const dia = fecha.toISOString().split("T")[0];
       movimientos[dia] = (movimientos[dia] || 0) + data.cantidad;
-      console.log("✅ Reposición válida:", data);
-    } else {
-      console.log("⛔ Reposición fuera de rango:", data);
     }
   });
 
-  console.log("📊 Total ingresos válidos:", ingresos.length);
-  console.log("📊 Total reposiciones válidas:", reposiciones.length);
-
-  renderTabla(tablaIngresos, ingresos, "tablaIngresos");
-  renderTabla(tablaReposiciones, reposiciones, "tablaReposiciones");
+  renderTabla(tablaIngresos, ingresos, "Ingresos");
+  renderTabla(tablaReposiciones, reposiciones, "Reposiciones");
   renderGraficoCategorias(categorias);
   renderGraficoMovimientos(movimientos);
+
+  // Productos con Stock 0 que hayan tenido movimiento
+  const productosSnapshot = await getDocs(collection(db, "productos"));
+  const productosStockCero = [];
+  productosSnapshot.forEach((doc) => {
+    const data = doc.data();
+    const stockActual = typeof data.stock === "string" ? parseInt(data.stock) : data.stock;
+    if (stockActual === 0 && productosConMovimiento.has(data.nombre)) {
+      productosStockCero.push(data);
+    }
+  });
+
+  renderTablaStockCero(productosStockCero);
 });
 
-function renderTabla(tabla, datos, nombreTabla) {
+function renderTabla(tabla, datos, nombre) {
   tabla.innerHTML = "";
-  console.log(`📝 Renderizando tabla: ${nombreTabla} con ${datos.length} registros`);
   datos.forEach((d) => {
-    const fila = document.createElement("tr");
     const fecha = d.fecha.toDate?.() || new Date(d.fecha);
+    const fila = document.createElement("tr");
     fila.innerHTML = `
       <td>${d.producto}</td>
       <td>${d.categoria}</td>
@@ -95,6 +95,20 @@ function renderTabla(tabla, datos, nombreTabla) {
       <td>${fecha.toLocaleDateString()}</td>
     `;
     tabla.appendChild(fila);
+  });
+}
+
+function renderTablaStockCero(lista) {
+  tablaStockCero.innerHTML = "";
+  lista.forEach((prod) => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${prod.codigo || "-"}</td>
+      <td>${prod.nombre}</td>
+      <td>${prod.categoria}</td>
+      <td>Stock = 0</td>
+    `;
+    tablaStockCero.appendChild(fila);
   });
 }
 
@@ -106,13 +120,10 @@ function renderGraficoCategorias(categorias) {
       labels: Object.keys(categorias),
       datasets: [{
         data: Object.values(categorias),
-        backgroundColor: [
-          "#007bff", "#17a2b8", "#28a745", "#ffc107", "#dc3545", "#6f42c1"
-        ]
+        backgroundColor: ["#007bff", "#17a2b8", "#28a745", "#ffc107", "#dc3545", "#6f42c1"]
       }],
     },
   });
-  console.log("🥧 Gráfico de categorías generado.");
 }
 
 function renderGraficoMovimientos(movimientos) {
@@ -131,39 +142,35 @@ function renderGraficoMovimientos(movimientos) {
       }],
     },
   });
-  console.log("📈 Gráfico de movimientos generado.");
 }
 
 btnExportar.addEventListener("click", async () => {
   const pdf = new jsPDF("p", "pt", "a4");
   const canvas = await html2canvas(document.querySelector("main"), {
-    scale: 2, // mejora la calidad de imagen
+    scale: 2,
     useCORS: true
   });
 
   const imgData = canvas.toDataURL("image/png");
   const imgProps = pdf.getImageProperties(imgData);
-
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-  const pageHeight = pdf.internal.pageSize.getHeight();
   let heightLeft = pdfHeight;
   let position = 0;
 
   pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-  heightLeft -= pageHeight;
+  heightLeft -= pdf.internal.pageSize.getHeight();
 
   while (heightLeft > 0) {
-    position -= pageHeight;
+    position -= pdf.internal.pageSize.getHeight();
     pdf.addPage();
     pdf.addImage(imgData, "PNG", 0, position, pdfWidth, pdfHeight);
-    heightLeft -= pageHeight;
+    heightLeft -= pdf.internal.pageSize.getHeight();
   }
 
   pdf.save("reporte.pdf");
 });
-
 
 btnGuardar.addEventListener("click", async () => {
   if (ingresos.length === 0 && reposiciones.length === 0) {

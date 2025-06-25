@@ -35,11 +35,11 @@ window.logout = logout;
 window.login = login;
 
 // ✅ Registrar el Service Worker con ruta absoluta
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", () => {
-//     navigator.serviceWorker
-//       .register("/sw.js")
-//       .then((reg) => console.log("✅ SW registrado", reg))
-//       .catch((err) => console.error("❌ Error al registrar el SW:", err));
-//   });
-// }
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((reg) => console.log("✅ SW registrado", reg))
+      .catch((err) => console.error("❌ Error al registrar el SW:", err));
+  });
+}

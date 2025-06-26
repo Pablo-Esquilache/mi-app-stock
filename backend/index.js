@@ -1,17 +1,14 @@
-// backend/index.js
 import express from "express";
 import cors from "cors";
 import admin from "firebase-admin";
 import dotenv from "dotenv";
 
-// Cargar variables del archivo .env
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configurar credenciales usando las variables de entorno
 const serviceAccount = {
   type: process.env.TYPE,
   project_id: process.env.PROJECT_ID,
@@ -25,26 +22,23 @@ const serviceAccount = {
   client_x509_cert_url: process.env.CLIENT_CERT_URL,
 };
 
-// Inicializar Firebase Admin con las credenciales del .env
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 const db = admin.firestore();
 
-// Ruta para eliminar un usuario
+// Eliminar usuario
 app.delete("/eliminar-usuario/:uid", async (req, res) => {
   const uid = req.params.uid;
 
   try {
-    // 1. Eliminar del Auth de Firebase
     await admin.auth().deleteUser(uid);
 
-    // 2. Eliminar también de Firestore
     const usuariosRef = db.collection("usuarios");
     const snapshot = await usuariosRef.where("uid", "==", uid).get();
 
-    const deletePromises = snapshot.docs.map(doc => doc.ref.delete());
+    const deletePromises = snapshot.docs.map((doc) => doc.ref.delete());
     await Promise.all(deletePromises);
 
     res.status(200).json({ mensaje: "Usuario eliminado correctamente." });
@@ -54,26 +48,20 @@ app.delete("/eliminar-usuario/:uid", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
-});
-
+// Crear usuario
 app.post("/crear-usuario", async (req, res) => {
   const { email, password, rol } = req.body;
 
   try {
-    // Crear usuario en Auth
     const userRecord = await admin.auth().createUser({
       email,
-      password
+      password,
     });
 
-    // Agregar también a la colección "usuarios"
     await db.collection("usuarios").add({
       email,
       rol,
-      uid: userRecord.uid
+      uid: userRecord.uid,
     });
 
     res.status(201).json({ mensaje: "Usuario creado correctamente." });
@@ -83,3 +71,7 @@ app.post("/crear-usuario", async (req, res) => {
   }
 });
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
+});

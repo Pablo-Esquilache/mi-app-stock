@@ -1,17 +1,10 @@
-// gestionar-usuarios.js
-import { db, auth } from "../firebase-config.js";
+import { db } from "../firebase-config.js";
 import {
   collection,
   getDocs,
-  addDoc,
   updateDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-  createUserWithEmailAndPassword,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const emailInput = document.getElementById("emailUsuario");
 const claveInput = document.getElementById("claveUsuario");
@@ -49,7 +42,6 @@ const cargarUsuarios = async () => {
     tabla.appendChild(fila);
   });
 
-  // Botón editar
   document.querySelectorAll(".btn-editar").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = e.currentTarget.getAttribute("data-id");
@@ -66,7 +58,6 @@ const cargarUsuarios = async () => {
     });
   });
 
-  // Botón eliminar
   document.querySelectorAll(".btn-eliminar").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const uid = e.currentTarget.getAttribute("data-uid");
@@ -76,7 +67,7 @@ const cargarUsuarios = async () => {
 
       try {
         const res = await fetch(`${API_URL}/eliminar-usuario/${uid}`, {
-          method: "DELETE"
+          method: "DELETE",
         });
 
         const data = await res.json();
@@ -129,7 +120,6 @@ btnCrear.addEventListener("click", async () => {
     alert("❌ Error al crear el usuario.");
   }
 });
-
 
 btnActualizar.addEventListener("click", async () => {
   if (!usuarioSeleccionadoId) return;

@@ -13,7 +13,13 @@ const firebaseConfig = {
   appId: "1:183225226359:web:d1cec7f2b0850f51c42272"
 };
 
-// Inicialización y exportación
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+// Inicialización principal
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// ✅ Instancia secundaria para registrar nuevos usuarios sin cerrar sesión
+const secondaryApp = initializeApp(firebaseConfig, "Secondary");
+const secondaryAuth = getAuth(secondaryApp);
+
+export { db, auth, secondaryAuth };

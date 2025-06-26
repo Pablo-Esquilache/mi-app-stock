@@ -58,3 +58,28 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
 });
+
+app.post("/crear-usuario", async (req, res) => {
+  const { email, password, rol } = req.body;
+
+  try {
+    // Crear usuario en Auth
+    const userRecord = await admin.auth().createUser({
+      email,
+      password
+    });
+
+    // Agregar también a la colección "usuarios"
+    await db.collection("usuarios").add({
+      email,
+      rol,
+      uid: userRecord.uid
+    });
+
+    res.status(201).json({ mensaje: "Usuario creado correctamente." });
+  } catch (error) {
+    console.error("❌ Error al crear usuario:", error);
+    res.status(500).json({ error: "Error al crear el usuario." });
+  }
+});
+

@@ -5,12 +5,12 @@ import {
   getDocs,
   addDoc,
   updateDoc,
-  deleteDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const emailInput = document.getElementById("emailUsuario");
@@ -21,6 +21,8 @@ const btnActualizar = document.getElementById("btnActualizarRol");
 const tabla = document.getElementById("tablaUsuarios");
 
 let usuarioSeleccionadoId = null;
+
+const API_URL = "https://mi-app-stock-backend.onrender.com";
 
 const cargarUsuarios = async () => {
   const snapshot = await getDocs(collection(db, "usuarios"));
@@ -64,7 +66,7 @@ const cargarUsuarios = async () => {
     });
   });
 
-  // Botón eliminar (envía al backend)
+  // Botón eliminar
   document.querySelectorAll(".btn-eliminar").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const uid = e.currentTarget.getAttribute("data-uid");
@@ -73,7 +75,7 @@ const cargarUsuarios = async () => {
       if (!confirmar) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/eliminar-usuario/${uid}`, {
+        const res = await fetch(`${API_URL}/eliminar-usuario/${uid}`, {
           method: "DELETE"
         });
 
@@ -94,36 +96,6 @@ const cargarUsuarios = async () => {
   });
 };
 
-
-document.querySelectorAll(".btn-eliminar").forEach((btn) => {
-  btn.addEventListener("click"), async (e) => {
-    const confirmacion = confirm("¿Estás seguro de que querés eliminar este usuario?");
-    if (!confirmacion) return;
-
-    const uid = e.target.getAttribute("data-uid");
-
-    try {
-      const respuesta = await fetch(`http://localhost:3000/eliminar-usuario/${uid}`, {
-        method: "DELETE"
-      });
-
-      const data = await respuesta.json();
-
-      if (respuesta.ok) {
-        alert("✅ Usuario eliminado correctamente.");
-        cargarUsuarios(); // Refrescar tabla
-      } else {
-        console.error("❌ Error:", data.error);
-        alert("❌ No se pudo eliminar el usuario.");
-      }
-    } catch (err) {
-      console.error("❌ Error al conectar con backend:", err);
-      alert("❌ Error al eliminar usuario.");
-    }
-  }
-});
-
-
 btnCrear.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const clave = claveInput.value.trim();
@@ -134,29 +106,30 @@ btnCrear.addEventListener("click", async () => {
   }
 
   try {
-    const cred = await createUserWithEmailAndPassword(auth, email, clave);
-    await addDoc(collection(db, "usuarios"), {
-      email,
-      rol,
-      uid: cred.user.uid
+    const res = await fetch(`${API_URL}/crear-usuario`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password: clave, rol })
     });
 
-    alert("✅ Usuario creado exitosamente.");
-    emailInput.value = "";
-    claveInput.value = "";
-    rolSelect.value = "usuario";
-    cargarUsuarios();
-  } catch (error) {
-    console.error("❌ Error al crear usuario:", error);
-    if (error.code === "auth/email-already-in-use") {
-      alert("❌ El correo ya está en uso.");
-    } else if (error.code === "auth/weak-password") {
-      alert("❌ La contraseña debe tener al menos 6 caracteres.");
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Usuario creado exitosamente.");
+      emailInput.value = "";
+      claveInput.value = "";
+      rolSelect.value = "usuario";
+      cargarUsuarios();
     } else {
-      alert("❌ Ocurrió un error al crear el usuario.");
+      alert("❌ No se pudo crear el usuario.");
+      console.error(data.error);
     }
+  } catch (err) {
+    console.error("❌ Error al conectar con el backend:", err);
+    alert("❌ Error al crear el usuario.");
   }
 });
+
 
 btnActualizar.addEventListener("click", async () => {
   if (!usuarioSeleccionadoId) return;

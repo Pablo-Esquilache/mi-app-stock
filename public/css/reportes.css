@@ -227,3 +227,49 @@ footer {
   min-width: 600px; /* o más si querés más espacio */
   width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .tabla-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* para scroll suave en iOS */
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    white-space: nowrap; /* evita que se corten palabras */
+  }
+
+  .botonera {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .botonera .botones {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .botonera .botones button {
+    width: 100%;
+  }
+
+  .botonera .fechas {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .botonera .fechas label,
+  .botonera .fechas input {
+    width: 100%;
+  }
+
+  .chart-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+

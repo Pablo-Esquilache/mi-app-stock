@@ -6,7 +6,7 @@ import {
   doc,
   updateDoc,
   addDoc,
-  Timestamp
+  Timestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const btnAgregar = document.getElementById("agregarFormulario");
@@ -23,7 +23,8 @@ const obtenerProductos = async () => {
 
   querySnapshot.forEach((docSnap) => {
     const data = docSnap.data();
-    const nombreProducto = data.producto || data.nombre || `SIN NOMBRE (${docSnap.id})`;
+    const nombreProducto =
+      data.producto || data.nombre || `SIN NOMBRE (${docSnap.id})`;
     const stockFinal = parseInt(data.stock_final);
 
     if (!isNaN(stockFinal) && stockFinal > 0) {
@@ -31,7 +32,7 @@ const obtenerProductos = async () => {
         id: docSnap.id,
         producto: nombreProducto,
         stock: stockFinal,
-        categoria: data.categoria || "Sin categoría"
+        categoria: data.categoria || "Sin categoría",
       });
 
       const option = document.createElement("option");
@@ -45,9 +46,9 @@ const crearFormulario = () => {
   const div = document.createElement("div");
   div.className = "formulario-reposicion";
   div.innerHTML = `
+  <input type="checkbox" class="campo-confirmar" disabled />
     <input type="text" placeholder="Buscar producto..." list="listaProductosGlobal" class="campo-producto" />
     <input type="number" placeholder="Cantidad" class="campo-cantidad" disabled />
-    <input type="checkbox" class="campo-confirmar" disabled />
     <button class="btn-eliminar">🗑</button>
   `;
 
@@ -109,9 +110,8 @@ const guardarReposiciones = async () => {
           producto: seleccionado.producto,
           categoria: seleccionado.categoria,
           cantidad,
-          fecha: Timestamp.now() // siempre como Timestamp
+          fecha: Timestamp.now(), // siempre como Timestamp
         });
-
       } catch (error) {
         console.error("Error al guardar reposición:", error);
       }

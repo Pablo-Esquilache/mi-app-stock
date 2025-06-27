@@ -14,7 +14,6 @@ const btnGuardar = document.getElementById("btnGuardarReporte");
 
 const tablaIngresos = document.getElementById("tablaIngresos");
 const tablaReposiciones = document.getElementById("tablaReposiciones");
-const tablaStockCero = document.getElementById("stockCeroProductos");
 const graficoCategorias = document.getElementById("graficoCategorias").getContext("2d");
 const graficoMovimientos = document.getElementById("graficoMovimientos").getContext("2d");
 
@@ -64,8 +63,8 @@ btnGenerar.addEventListener("click", async () => {
     }
   });
 
-  renderTabla(tablaIngresos, ingresos, "Ingresos");
-  renderTabla(tablaReposiciones, reposiciones, "Reposiciones");
+  renderTabla(tablaIngresos, ingresos);
+  renderTabla(tablaReposiciones, reposiciones);
   renderGraficoCategorias(categorias);
   renderGraficoMovimientos(movimientos);
 
@@ -80,10 +79,11 @@ btnGenerar.addEventListener("click", async () => {
     }
   });
 
-  renderTablaStockCero(productosStockCero);
+  const tablaStockCero = document.getElementById("stockCeroProductos");
+  if (tablaStockCero) renderTablaStockCero(tablaStockCero, productosStockCero);
 });
 
-function renderTabla(tabla, datos, nombre) {
+function renderTabla(tabla, datos) {
   tabla.innerHTML = "";
   datos.forEach((d) => {
     const fecha = d.fecha.toDate?.() || new Date(d.fecha);
@@ -98,8 +98,8 @@ function renderTabla(tabla, datos, nombre) {
   });
 }
 
-function renderTablaStockCero(lista) {
-  tablaStockCero.innerHTML = "";
+function renderTablaStockCero(tabla, lista) {
+  tabla.innerHTML = "";
   lista.forEach((prod) => {
     const fila = document.createElement("tr");
     fila.innerHTML = `
@@ -108,7 +108,7 @@ function renderTablaStockCero(lista) {
       <td>${prod.categoria}</td>
       <td>Stock = 0</td>
     `;
-    tablaStockCero.appendChild(fila);
+    tabla.appendChild(fila);
   });
 }
 

@@ -192,7 +192,7 @@ footer {
     font-size: 0.85rem;
     padding: 0.4rem 0.6rem;
   }
-   .tabla-responsive {
+   #tablaUsuarios {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }

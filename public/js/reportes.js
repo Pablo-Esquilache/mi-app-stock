@@ -44,7 +44,7 @@ btnGenerar.addEventListener("click", async () => {
     const fecha = data.fecha.toDate?.() || new Date(data.fecha);
     if (fecha >= desdeFecha && fecha <= hastaFecha) {
       ingresos.push(data);
-      productosConMovimiento.add(data.producto);
+      productosConMovimiento.add((data.producto || "").trim().toLowerCase());
       categorias[data.categoria] = (categorias[data.categoria] || 0) + data.cantidad;
       const dia = fecha.toISOString().split("T")[0];
       movimientos[dia] = (movimientos[dia] || 0) + data.cantidad;
@@ -56,7 +56,7 @@ btnGenerar.addEventListener("click", async () => {
     const fecha = data.fecha.toDate?.() || new Date(data.fecha);
     if (fecha >= desdeFecha && fecha <= hastaFecha) {
       reposiciones.push(data);
-      productosConMovimiento.add(data.producto);
+      productosConMovimiento.add((data.producto || "").trim().toLowerCase());
       categorias[data.categoria] = (categorias[data.categoria] || 0) + data.cantidad;
       const dia = fecha.toISOString().split("T")[0];
       movimientos[dia] = (movimientos[dia] || 0) + data.cantidad;
@@ -71,10 +71,13 @@ btnGenerar.addEventListener("click", async () => {
   // Productos con Stock 0 que hayan tenido movimiento
   const productosSnapshot = await getDocs(collection(db, "productos"));
   const productosStockCero = [];
+
   productosSnapshot.forEach((doc) => {
     const data = doc.data();
     const stockActual = typeof data.stock === "string" ? parseInt(data.stock) : data.stock;
-    if (stockActual === 0 && productosConMovimiento.has(data.nombre)) {
+    const nombreProducto = (data.producto || "").trim().toLowerCase();
+
+    if (stockActual === 0 && productosConMovimiento.has(nombreProducto)) {
       productosStockCero.push(data);
     }
   });
@@ -104,7 +107,7 @@ function renderTablaStockCero(tabla, lista) {
     const fila = document.createElement("tr");
     fila.innerHTML = `
       <td>${prod.codigo || "-"}</td>
-      <td>${prod.nombre}</td>
+      <td>${prod.producto}</td>
       <td>${prod.categoria}</td>
       <td>Stock = 0</td>
     `;

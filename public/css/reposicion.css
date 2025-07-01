@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: #f4f6f8;
   color: #333;
   line-height: 1.6;
@@ -132,6 +132,28 @@ footer {
 
 /* Responsive: solo reorganizamos la botonera */
 @media (max-width: 768px) {
+  @media (max-width: 768px) {
+    .formulario-reposicion {
+      padding: 0.6rem;
+      gap: 0.5rem;
+    }
+
+    .formulario-reposicion input[type="text"],
+    .formulario-reposicion input[type="number"] {
+      padding: 0.4rem;
+      font-size: 0.9rem;
+      min-width: 120px;
+    }
+
+    .formulario-reposicion input[type="number"] {
+      max-width: 100px;
+    }
+
+    .formulario-reposicion .btn-eliminar {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+    }
+  }
   .botonera {
     flex-direction: column;
     align-items: stretch;

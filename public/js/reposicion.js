@@ -46,9 +46,9 @@ const crearFormulario = () => {
   const div = document.createElement("div");
   div.className = "formulario-reposicion";
   div.innerHTML = `
-  <input type="checkbox" class="campo-confirmar" disabled />
     <input type="text" placeholder="Buscar producto..." list="listaProductosGlobal" class="campo-producto" />
     <input type="number" placeholder="Cantidad" class="campo-cantidad" disabled />
+     <input type="checkbox" class="campo-confirmar" disabled />
     <button class="btn-eliminar">🗑</button>
   `;
 

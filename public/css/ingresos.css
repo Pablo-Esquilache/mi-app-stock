@@ -136,6 +136,29 @@ main {
 
 /* Responsive ajustes para botonera */
 @media (max-width: 768px) {
+   .formulario-ingreso {
+    padding: 0.5rem;
+    gap: 0.4rem;
+  }
+
+  .formulario-ingreso input[type="text"] {
+    min-width: 140px;
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .formulario-ingreso input[type="number"] {
+    min-width: 80px;
+    max-width: 80px;
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  .formulario-ingreso .btn-eliminar {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    min-width: 40px;
+  }
   .botonera {
     flex-direction: column;
     align-items: stretch;

@@ -71,6 +71,52 @@ app.post("/crear-usuario", async (req, res) => {
   }
 });
 
+app.post('/registrar-sesion', async (req, res) => {
+  try {s
+    const { uid, sessionId } = req.body;
+    if (!uid || !sessionId) {
+      return res.status(400).send({ error: 'Faltan datos' });
+    }
+
+    const ref = db.collection('sesiones').doc(uid);
+    const doc = await ref.get();
+
+    // Si ya hay una sesión activa distinta
+    if (doc.exists && doc.data().sessionId !== sessionId) {
+      return res.status(403).send({ error: 'Este usuario ya tiene una sesión activa en otro dispositivo.' });
+    }
+
+    // Registrar o actualizar la sesión
+    await ref.set({
+      sessionId,
+      timestamp: admin.firestore.FieldValue.serverTimestamp()
+    });
+
+    res.status(200).send({ status: 'ok' });
+  } catch (error) {
+    console.error("Error al registrar sesión:", error);
+    res.status(500).send({ error: 'Error del servidor' });
+  }
+});
+
+app.post('/cerrar-sesion', async (req, res) => {
+  try {
+    const { uid } = req.body;
+
+    if (!uid) {
+      return res.status(400).send({ error: 'Falta el UID' });
+    }
+
+    await db.collection('sesiones').doc(uid).delete();
+
+    res.status(200).send({ status: 'Sesión cerrada y eliminada correctamente' });
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+    res.status(500).send({ error: 'Error del servidor al cerrar sesión' });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);

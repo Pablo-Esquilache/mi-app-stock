@@ -14,8 +14,8 @@ const urlsToCache = [
   "/pages/ingresos.html",
   "/pages/reportes.html",
   "/pages/gestionar-usuarios.html",
-  "/css/dashboard.css",  // Asegurate que exista
-  "/js/dashboard.js"     // Asegurate que exista
+  "/css/dashboard.css", // Asegurate que exista
+  "/js/dashboard.js", // Asegurate que exista
 ];
 
 // Instalación del Service Worker
@@ -54,4 +54,10 @@ self.addEventListener("fetch", (event) => {
       );
     })
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
 });

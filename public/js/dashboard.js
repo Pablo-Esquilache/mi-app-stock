@@ -15,4 +15,30 @@
       });
     }
 
+    // Registro y actualización del Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(registration => {
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          const actualizar = confirm("Hay una nueva versión de la app. ¿Querés actualizar ahora?");
+          if (actualizar) {
+            newWorker.postMessage({ action: 'skipWaiting' });
+          }
+        }
+      });
+    });
+  });
+
+  let refreshing;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
+}
+
+
     window.logout = logout;

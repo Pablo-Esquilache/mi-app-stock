@@ -78,6 +78,9 @@ app.post('/registrar-sesion', async (req, res) => {
       return res.status(400).send({ error: 'Faltan datos' });
     }
 
+    console.log("Recibiendo sesión:", { uid, sessionId });
+
+
     const ref = db.collection('sesiones').doc(uid);
     const doc = await ref.get();
 

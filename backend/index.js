@@ -72,7 +72,7 @@ app.post("/crear-usuario", async (req, res) => {
 });
 
 app.post('/registrar-sesion', async (req, res) => {
-  try {s
+  try {
     const { uid, sessionId } = req.body;
     if (!uid || !sessionId) {
       return res.status(400).send({ error: 'Faltan datos' });

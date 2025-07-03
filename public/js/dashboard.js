@@ -11,6 +11,14 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     const sessionId = localStorage.getItem("sessionId");
 
+    if (!sessionId) {
+      alert("Error de sesión. Cerrando sesión por seguridad.");
+      await signOut(auth);
+      window.location.href = "/index.html";
+      return;
+    }
+
+
     try {
       const res = await fetch("https://mi-app-stock-backend.onrender.com/registrar-sesion", {
         method: "POST",

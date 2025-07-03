@@ -1,0 +1,21 @@
+{
+  "name": "Control de Stock",
+  "short_name": "StockApp",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/icono1.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icono2.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

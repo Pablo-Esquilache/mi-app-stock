@@ -64,8 +64,9 @@ btnGenerar.addEventListener("click", async () => {
   });
 
   // ORDENAR por fecha
-  ingresos.sort((a, b) => (a.fecha?.toDate?.() || new Date(a.fecha)) - (b.fecha?.toDate?.() || new Date(b.fecha)));
-  reposiciones.sort((a, b) => (a.fecha?.toDate?.() || new Date(a.fecha)) - (b.fecha?.toDate?.() || new Date(b.fecha)));
+ingresos.sort((a, b) => (b.fecha?.toDate?.() || new Date(b.fecha)) - (a.fecha?.toDate?.() || new Date(a.fecha)));
+reposiciones.sort((a, b) => (b.fecha?.toDate?.() || new Date(b.fecha)) - (a.fecha?.toDate?.() || new Date(a.fecha)));
+
 
   renderTabla(tablaIngresos, ingresos);
   renderTabla(tablaReposiciones, reposiciones);

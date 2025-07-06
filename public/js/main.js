@@ -17,11 +17,11 @@ function login() {
   signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
-      const sessionId = Date.now().toString(); // o usar UUID si preferís
+      const sessionId = Date.now().toString();
       localStorage.setItem("sessionId", sessionId);
 
       try {
-        const res = await fetch("https://mi-app-stock-backend.onrender.com", {
+        const res = await fetch("https://mi-app-stock-backend.onrender.com/registrar-sesion", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -52,27 +52,30 @@ function login() {
     });
 }
 
-function logout() {
+// Función de logout (ordenada correctamente)
+async function logout() {
   const user = auth.currentUser;
   const sessionId = localStorage.getItem("sessionId");
 
-  if (user) {
-    fetch("https://mi-app-stock-backend.onrender.com/cerrar-sesion", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid: user.uid })
-    }).catch((err) => console.error("Error al cerrar sesión en backend:", err));
+  try {
+    if (user && sessionId) {
+      await fetch("https://mi-app-stock-backend.onrender.com/cerrar-sesion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid })
+      });
+    }
+  } catch (err) {
+    console.error("Error al cerrar sesión en backend:", err);
   }
 
-  signOut(auth).then(() => {
-    localStorage.removeItem("sessionId");
-    window.location.href = "/index.html";
-  });
+  await signOut(auth);
+  localStorage.removeItem("sessionId");
+  window.location.href = "/index.html";
 }
 
-
-window.logout = logout;
 window.login = login;
+window.logout = logout;
 
 // ✅ Registrar el Service Worker con ruta absoluta
 if ("serviceWorker" in navigator) {

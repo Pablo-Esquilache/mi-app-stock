@@ -1,4 +1,4 @@
-const CACHE_NAME = "mi-deposito-cache-v1.02";
+const CACHE_NAME = "mi-deposito-cache-v1.04";
 const urlsToCache = [
   "/",
   "/index.html",

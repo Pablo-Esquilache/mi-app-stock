@@ -6,6 +6,7 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const formCrear = document.getElementById("formCrearUsuario");
 const emailInput = document.getElementById("emailUsuario");
 const claveInput = document.getElementById("claveUsuario");
 const rolSelect = document.getElementById("rolUsuario");
@@ -107,8 +108,7 @@ btnCrear.addEventListener("click", async () => {
 
     if (res.ok) {
       alert("✅ Usuario creado exitosamente.");
-      emailInput.value = "";
-      claveInput.value = "";
+      formCrear.reset();
       rolSelect.value = "usuario";
       cargarUsuarios();
     } else {
@@ -129,8 +129,7 @@ btnActualizar.addEventListener("click", async () => {
     const ref = doc(db, "usuarios", usuarioSeleccionadoId);
     await updateDoc(ref, { rol: nuevoRol });
     alert("✅ Rol actualizado.");
-    emailInput.value = "";
-    claveInput.value = "";
+    formCrear.reset();
     rolSelect.value = "usuario";
     usuarioSeleccionadoId = null;
     btnCrear.classList.remove("hidden");
@@ -142,4 +141,8 @@ btnActualizar.addEventListener("click", async () => {
   }
 });
 
-window.addEventListener("DOMContentLoaded", cargarUsuarios);
+window.addEventListener("DOMContentLoaded", () => {
+  formCrear.reset();
+  rolSelect.value = "usuario";
+  cargarUsuarios();
+});

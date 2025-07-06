@@ -6,22 +6,21 @@
     <meta name="description" content="Inicio de sesión para Mi Depósito" />
     <meta name="theme-color" content="#007bff" />
     <title>Login - Mi Depósito</title>
-    <!-- CSS principal -->
     <link rel="stylesheet" href="/css/index.css" />
-    <!-- Manifest y favicon -->
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" href="/images/icono1.png" type="image/png" />
-    <!-- iOS: para que también sea instalable ahí -->
     <link rel="apple-touch-icon" href="/images/icono1.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
   </head>
   <body>
     <main class="container">
       <h1>Mi Depósito</h1>
-      <input type="email" id="email" placeholder="Correo electrónico" />
-      <input type="password" id="password" placeholder="Contraseña" />
-      <button onclick="login()">Ingresar</button>
-      <p id="loginError" class="error-message"></p>
+      <form id="loginForm" autocomplete="off">
+        <input type="email" id="email" placeholder="Correo electrónico" autocomplete="off" />
+        <input type="password" id="password" placeholder="Contraseña" autocomplete="off" />
+        <button type="submit">Ingresar</button>
+        <p id="loginError" class="error-message"></p>
+      </form>
     </main>
     <script type="module" src="/js/main.js"></script>
   </body>

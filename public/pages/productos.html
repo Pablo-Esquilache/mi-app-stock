@@ -17,21 +17,9 @@
 
     <main>
       <div class="botonera">
-        <button
-          onclick="window.location.href='agregar-producto.html'"
-          class="btn-cargar"
-        >
-          📥 Cargar Archivo
-        </button>
-        <button id="btnAbrirModal" class="btn-agregar">
-          ➕ Agregar Producto
-        </button>
-        <button
-          onclick="window.location.href='dashboard.html'"
-          class="btn-volver"
-        >
-          🏠 Volver al Dashboard
-        </button>
+        <button onclick="window.location.href='agregar-producto.html'" class="btn-cargar">📥 Cargar Archivo</button>
+        <button id="btnAbrirModal" class="btn-agregar">➕ Agregar Producto</button>
+        <button onclick="window.location.href='dashboard.html'" class="btn-volver">🏠 Volver al Dashboard</button>
       </div>
 
       <div class="buscador-contenedor">
@@ -54,12 +42,13 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody id="tablaProductos">
-            <!-- Los productos se cargarán desde Firebase -->
-          </tbody>
+          <tbody id="tablaProductos"></tbody>
         </table>
       </section>
     </main>
+
+    <!-- Botón para volver arriba -->
+    <button id="btnVolverArriba" title="Volver arriba">⬆️</button>
 
     <!-- Modal para agregar producto -->
     <div id="modalProducto" class="modal hidden">
@@ -67,14 +56,12 @@
         <h2>Agregar Nuevo Producto</h2>
         <form id="formNuevoProducto">
           <input type="text" id="codigo" placeholder="Código" disabled />
+          <p>Categoria</p>
           <input type="text" id="categoria" placeholder="Categoría" required />
+          <p>Producto</p>
           <input type="text" id="producto" placeholder="Producto" required />
-          <input
-            type="number"
-            id="stock_inicial"
-            placeholder="Stock Inicial"
-            required
-          />
+          <p>Stock Inicial</p>
+          <input type="number" id="stock_inicial" placeholder="Stock Inicial" required />
           <button type="submit">Agregar</button>
           <button type="button" id="cerrarModal">Cancelar</button>
         </form>
@@ -87,8 +74,11 @@
         <h2>Editar Producto</h2>
         <form id="formEditarProducto">
           <input type="text" id="edit_codigo" disabled />
+          <p>Categoria</p>
           <input type="text" id="edit_categoria" required />
+          <p>Producto</p>
           <input type="text" id="edit_producto" required />
+          <p>Stock Inicial</p>
           <input type="number" id="edit_stock_inicial" required />
           <button type="submit">Guardar Cambios</button>
           <button type="button" id="cerrarModalEditar">Cancelar</button>

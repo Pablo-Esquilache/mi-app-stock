@@ -226,6 +226,28 @@ footer {
   opacity: 0.9;
 }
 
+#btnVolverArriba {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 0.6rem 1rem;
+  font-size: 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+#btnVolverArriba:hover {
+  background-color: #0056b3;
+}
+
+
 
 @media (max-width: 480px) {
   .tabla-contenedor {

@@ -13,40 +13,51 @@
 
     <main class="container">
       <section class="formulario">
-  <div class="formulario-header">
-    <h2>➕ Crear nuevo usuario</h2>
-    <button class="btn-volver" onclick="window.location.href='dashboard.html'">
-      ⬅ Volver al Dashboard
-    </button>
-  </div>
+        <div class="formulario-header">
+          <h2>➕ Crear nuevo usuario</h2>
+          <button class="btn-volver" onclick="window.location.href='dashboard.html'">
+            ⬅ Volver al Dashboard
+          </button>
+        </div>
 
-  <input type="email" id="emailUsuario" placeholder="Correo electrónico" />
-  <input type="password" id="claveUsuario" placeholder="Contraseña" />
-  <select id="rolUsuario">
-    <option value="admin">Administrador</option>
-    <option value="usuario">Usuario</option>
-  </select>
+        <form id="formCrearUsuario" autocomplete="off">
+          <input
+            type="email"
+            id="emailUsuario"
+            placeholder="Correo electrónico"
+            autocomplete="off"
+          />
+          <input
+            type="password"
+            id="claveUsuario"
+            placeholder="Contraseña"
+            autocomplete="new-password"
+          />
+          <select id="rolUsuario">
+            <option value="admin">Administrador</option>
+            <option value="usuario" selected>Usuario</option>
+          </select>
 
-  <button id="btnCrearUsuario" class="btn-form">Crear Usuario</button>
-  <button id="btnActualizarRol" class="hidden btn-form">Actualizar Rol</button>
-</section>
+          <button type="button" id="btnCrearUsuario" class="btn-form">Crear Usuario</button>
+          <button type="button" id="btnActualizarRol" class="hidden btn-form">Actualizar Rol</button>
+        </form>
+      </section>
 
-<section class="listado">
-  <h2>📋 Usuarios Activos</h2>
-  <div class="tabla-responsive">
-    <table>
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaUsuarios"></tbody>
-    </table>
-  </div>
-</section>
-
+      <section class="listado">
+        <h2>📋 Usuarios Activos</h2>
+        <div class="tabla-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuarios"></tbody>
+          </table>
+        </div>
+      </section>
     </main>
 
     <footer>

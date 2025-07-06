@@ -2,57 +2,53 @@
 import { auth } from "../firebase-config.js";
 import {
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// 🔒 Forzar cierre de sesión al abrir (solo en index)
-signOut(auth);
+// 🔒 Cerrar sesión apenas se carga el login (prevención de sesión persistente)
+signOut(auth).then(() => {
+  // Limpiar campos al forzar logout
+  const emailInput = document.getElementById("email");
+  const passInput = document.getElementById("password");
+  if (emailInput) emailInput.value = "";
+  if (passInput) passInput.value = "";
+});
 
 // Función de login
-function login() {
+async function login(event) {
+  event.preventDefault(); // Previene recarga de formulario
+
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
-      const sessionId = Date.now().toString();
-      localStorage.setItem("sessionId", sessionId);
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const sessionId = Date.now().toString();
+    localStorage.setItem("sessionId", sessionId);
 
-      try {
-        const res = await fetch("https://mi-app-stock-backend.onrender.com/registrar-sesion", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            uid: user.uid,
-            sessionId
-          })
-        });
-
-        if (res.status === 403) {
-          alert("Esta cuenta ya está en uso en otro dispositivo.");
-          await signOut(auth);
-          localStorage.removeItem("sessionId");
-          window.location.href = "/index.html";
-        } else {
-          window.location.href = "pages/dashboard.html";
-        }
-      } catch (error) {
-        console.error("Error al registrar sesión:", error);
-        alert("Error al conectar con el servidor. Intentalo de nuevo.");
-        await signOut(auth);
-        localStorage.removeItem("sessionId");
-        window.location.href = "/index.html";
-      }
-    })
-    .catch(() => {
-      const loginError = document.getElementById("loginError");
-      if (loginError) loginError.textContent = "Credenciales incorrectas";
+    const res = await fetch("https://mi-app-stock-backend.onrender.com/registrar-sesion", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid: user.uid, sessionId })
     });
+
+    if (res.status === 403) {
+      alert("Esta cuenta ya está en uso en otro dispositivo.");
+      await signOut(auth);
+      localStorage.removeItem("sessionId");
+      window.location.href = "/index.html";
+    } else {
+      window.location.href = "pages/dashboard.html";
+    }
+  } catch (error) {
+    const loginError = document.getElementById("loginError");
+    if (loginError) loginError.textContent = "Credenciales incorrectas";
+    console.error("Error en login:", error);
+  }
 }
 
-// Función de logout (ordenada correctamente)
+// Función de logout
 async function logout() {
   const user = auth.currentUser;
   const sessionId = localStorage.getItem("sessionId");
@@ -74,10 +70,17 @@ async function logout() {
   window.location.href = "/index.html";
 }
 
-window.login = login;
 window.logout = logout;
 
-// ✅ Registrar el Service Worker con ruta absoluta
+// Asociar el login al submit del formulario
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
+  if (form) {
+    form.addEventListener("submit", login);
+  }
+});
+
+// ✅ Registrar el Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker

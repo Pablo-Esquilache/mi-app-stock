@@ -2,14 +2,14 @@
 import { db } from "../firebase-config.js";
 import {
   collection,
-  getDocs,
+  onSnapshot,
   deleteDoc,
   updateDoc,
   doc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 👉 Función para normalizar campos del producto
+// 👉 Normalizar campos del producto
 function normalizarProducto(data) {
   return {
     codigo: data.codigo || "",
@@ -20,56 +20,63 @@ function normalizarProducto(data) {
   };
 }
 
-// Mostrar productos en tabla
-document.addEventListener("DOMContentLoaded", async () => {
+// 👉 Crear una fila HTML para un producto
+function crearFila(producto) {
+  const fila = document.createElement("tr");
+  fila.id = `producto-${producto.id}`;
+  fila.innerHTML = `
+    <td>${producto.codigo}</td>
+    <td>${producto.categoria}</td>
+    <td>${producto.producto}</td>
+    <td>${producto.stock_inicial}</td>
+    <td>${producto.stock_final}</td>
+    <td>
+      <button class="accion" onclick="editarProducto('${producto.id}')">✏️</button>
+      <button class="accion eliminar" onclick="eliminarProducto('${producto.id}')">🗑️</button>
+    </td>
+  `;
+  return fila;
+}
+
+// Mostrar productos y escuchar en tiempo real
+document.addEventListener("DOMContentLoaded", () => {
   const tabla = document.getElementById("tablaProductos");
   const buscador = document.getElementById("buscador");
 
   let productos = [];
 
-  try {
-    const querySnapshot = await getDocs(collection(db, "productos"));
-    querySnapshot.forEach((docSnap) => {
+  onSnapshot(collection(db, "productos"), (snapshot) => {
+    productos = [];
+
+    // Limpiar tabla
+    tabla.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
       const data = normalizarProducto(docSnap.data());
-      data.id = docSnap.id; // Guardamos el ID del doc
+      data.id = docSnap.id;
       productos.push(data);
     });
 
-    // Ordenar por categoría alfabéticamente
+    // Ordenar alfabéticamente
     productos.sort((a, b) => a.categoria.localeCompare(b.categoria));
-
     mostrarProductos(productos);
+  });
 
-    buscador.addEventListener("input", () => {
-      const texto = buscador.value.toLowerCase();
-      const filtrados = productos.filter(p =>
-        p.categoria.toLowerCase().includes(texto) ||
-        p.producto.toLowerCase().includes(texto) ||
-        p.codigo.toLowerCase().includes(texto)
-      );
-      mostrarProductos(filtrados);
-    });
-
-  } catch (error) {
-    console.error("Error al obtener los productos:", error);
-  }
+  // Buscador
+  buscador.addEventListener("input", () => {
+    const texto = buscador.value.toLowerCase();
+    const filtrados = productos.filter(p =>
+      p.categoria.toLowerCase().includes(texto) ||
+      p.producto.toLowerCase().includes(texto) ||
+      p.codigo.toLowerCase().includes(texto)
+    );
+    mostrarProductos(filtrados);
+  });
 
   function mostrarProductos(lista) {
-    tabla.innerHTML = ""; // Limpiar tabla
+    tabla.innerHTML = "";
     lista.forEach((p) => {
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-        <td>${p.codigo}</td>
-        <td>${p.categoria}</td>
-        <td>${p.producto}</td>
-        <td>${p.stock_inicial}</td>
-        <td>${p.stock_final}</td>
-        <td>
-          <button class="accion" onclick="editarProducto('${p.id}')">✏️</button>
-          <button class="accion eliminar" onclick="eliminarProducto('${p.id}')">🗑️</button>
-        </td>
-      `;
-      tabla.appendChild(fila);
+      tabla.appendChild(crearFila(p));
     });
   }
 });
@@ -80,14 +87,13 @@ window.eliminarProducto = async (id) => {
     try {
       await deleteDoc(doc(db, "productos", id));
       alert("Producto eliminado correctamente.");
-      location.reload();
     } catch (error) {
       console.error("Error al eliminar:", error);
     }
   }
 };
 
-// Función para abrir el modal de edición
+// Función para editar producto
 window.editarProducto = async (id) => {
   const modal = document.getElementById("modalEditarProducto");
   const form = document.getElementById("formEditarProducto");
@@ -115,7 +121,7 @@ window.editarProducto = async (id) => {
           await updateDoc(doc(db, "productos", id), nuevosDatos);
           alert("Producto actualizado correctamente.");
           modal.classList.add("hidden");
-          location.reload();
+          // No hace falta recargar: onSnapshot lo actualiza en vivo
         } catch (error) {
           console.error("Error al actualizar:", error);
         }

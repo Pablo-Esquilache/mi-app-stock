@@ -63,12 +63,15 @@ btnGenerar.addEventListener("click", async () => {
     }
   });
 
+  // ORDENAR por fecha
+  ingresos.sort((a, b) => (a.fecha?.toDate?.() || new Date(a.fecha)) - (b.fecha?.toDate?.() || new Date(b.fecha)));
+  reposiciones.sort((a, b) => (a.fecha?.toDate?.() || new Date(a.fecha)) - (b.fecha?.toDate?.() || new Date(b.fecha)));
+
   renderTabla(tablaIngresos, ingresos);
   renderTabla(tablaReposiciones, reposiciones);
   renderGraficoCategorias(categorias);
   renderGraficoMovimientos(movimientos);
 
-  // Productos con Stock 0 que hayan tenido movimiento
   const productosSnapshot = await getDocs(collection(db, "productos"));
   const productosStockCero = [];
 
